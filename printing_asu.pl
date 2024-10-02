@@ -80,7 +80,7 @@ drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   ),
   drawSymbol('*', FontSize),
   NextColumn is ColumnNumber + FontSize,
-  drawA(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
+  drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
 
 /* 
