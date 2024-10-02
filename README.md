@@ -2,7 +2,7 @@
 
 ## Team Members
 - Sophie
-- Dia
+- Diya
 - Izzy
 
   ## idk what else to write here lol
