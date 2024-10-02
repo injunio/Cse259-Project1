@@ -111,13 +111,13 @@ draw(LeftRightMargin, SpaceBetweenCharacters, FontSize, CurrentLine, TextWidth, 
   /*---------------------------------------------*/
   /** CALL YOUR RULES HERE **/
   % add spaces here between A and S
-  drawSymbol(' ', LeftRightMargin),
+  drawSymbol(' ', FontSize),
 
   % call drawS
   drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber),
 
   % add spaces here between S and U
-    drawSymbol(' ', LeftRightMargin),
+    drawSymbol(' ', FontSize),
 
   % call drawU
    drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber),
