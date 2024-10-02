@@ -66,7 +66,48 @@ drawA(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
 /*-------------------------------------------------------------------------------------------------*/
 /* WRITE RULES FOR drawS HERE*/
 /*-------------------------------------------------------------------------------------------------*/
+/* draw S */
+drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+  ColumnNumber >= TextWidth.
 
+/* 
+ * Covers the left-most and the right-most columns that only have stars 
+ */
+drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+  (
+    (ColumnNumber < FontSize, ColumnNumber < FontSize * 8);
+    (ColumnNumber < TextWidth, ColumnNumber < TextWidth * 2 )
+  ),
+  drawSymbol('*', FontSize),
+  NextColumn is ColumnNumber + FontSize,
+  drawA(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
+
+
+/* 
+ * Covers the middle segment
+ * Will have either stars or spaces 
+ */
+% drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+%   (ColumnNumber >= FontSize, ColumnNumber < FontSize * 2),
+%   (
+%     (CurrentLine >= 0, CurrentLine < FontSize);
+%     (CurrentLine >= FontSize * 2 , CurrentLine < FontSize * 3)
+%   ),
+%   drawSymbol('*', FontSize),
+%   NextColumn is ColumnNumber + FontSize,
+%   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
+
+
+% drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+%   (ColumnNumber >= FontSize, ColumnNumber < FontSize * 2),
+%   (
+%     (CurrentLine >= FontSize, CurrentLine < 2 * FontSize);
+%     (CurrentLine >= FontSize * 3, CurrentLine < TextHeight)
+%   ),
+%   drawSymbol(' ', FontSize),
+%   NextColumn is ColumnNumber + FontSize,
+%   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
+/* draw S */
 /*-------------------------------------------------------------------------------------------------*/
 /* WRITE RULES FOR drawU HERE*/
 /*-------------------------------------------------------------------------------------------------*/
@@ -81,6 +122,8 @@ draw(LeftRightMargin, SpaceBetweenCharacters, FontSize, CurrentLine, TextWidth, 
   ColumnNumber is 0,
   write('|'), drawSymbol(' ', LeftRightMargin),
   drawA(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber),
+  drawSymbol(' ', LeftRightMargin),
+  drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber),
   /*---------------------------------------------*/
   /** CALL YOUR RULES HERE **/
   % add spaces here between A and S
