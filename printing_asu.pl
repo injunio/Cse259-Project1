@@ -68,13 +68,14 @@ drawA(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
 /* draw S */
 
 /*
-*This is our base case. It makes sure we are staying in the correct location for S
+*Rule 1 is our base case. It makes sure we are staying in the correct location for S
 */
 drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   ColumnNumber >= TextWidth.
 
-/*This will print out the three horizontal lines of S*/
-
+/*
+*Rule 2 will print out the three horizontal lines of S
+*/
 drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   /*This restricts our column access*/
   (ColumnNumber >= 0, ColumnNumber < TextWidth),
@@ -89,7 +90,7 @@ drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
 /*
-Prints the single box of * on the 2nd row
+* Rule 3 prints the single box of * on the 2nd row
 */
 drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   (ColumnNumber >= 0, ColumnNumber < FontSize),
@@ -99,18 +100,17 @@ drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
 /*
-Prints the single box of * on the 4th row
+* Rule 4 prints the single box of * on the 4th row
 */
 drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
-  (ColumnNumber >= FontSize*3, ColumnNumber < TextWidth),
+  (ColumnNumber >= FontSize*2, ColumnNumber < TextWidth),
   (CurrentLine >= FontSize*3, CurrentLine < FontSize*4),
   drawSymbol('*', FontSize),
   NextColumn is ColumnNumber + FontSize,
   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
 /*
-*Prints the Spaces on the 2nd row
-COME BACK HER LATER. THIS PIECE WON'T ALLOW THE CODE TO STOP PRINTING
+*Rule 5 prints the Spaces on the 2nd row
 */
 drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   (ColumnNumber >= FontSize, ColumnNumber < TextWidth),
@@ -120,10 +120,10 @@ drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
 /*
-*Prints the Spaces on the 4th row
+*Rule 6 prints the Spaces on the 4th row
 */
 drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
-  (ColumnNumber >= 0, ColumnNumber < FontSize*3),
+  (ColumnNumber >= 0, ColumnNumber < FontSize*2),
   (CurrentLine >= FontSize*3, CurrentLine < FontSize*4),
   drawSymbol(' ', FontSize),
   NextColumn is ColumnNumber + FontSize,
