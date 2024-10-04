@@ -66,46 +66,62 @@ drawA(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
 /* WRITE RULES FOR drawS HERE*/
 /*-------------------------------------------------------------------------------------------------*/
 /* draw S */
+
+/*
+*This is our base case. It makes sure we are staying in the correct location for S
+*/
 drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   ColumnNumber >= TextWidth.
 
-/* 
- * Covers the left-most and the right-most columns that only have stars 
- */
+/*This will print out the three horizontal lines of S*/
+
 drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+  /*This restricts our column access*/
+  (ColumnNumber >= 0, ColumnNumber < TextWidth),
+  /*These restrict our row access, and allows the * to be printed in 3 specific locations*/
   (
-    (ColumnNumber < FontSize, ColumnNumber < FontSize * 8);
-    (ColumnNumber < TextWidth, ColumnNumber < TextWidth * 2 )
+    (CurrentLine >= 0, CurrentLine < FontSize);
+    (CurrentLine >= FontSize*2, CurrentLine < FontSize*3);
+    (CurrentLine >= FontSize*4, CurrentLine < TextHeight)
   ),
   drawSymbol('*', FontSize),
   NextColumn is ColumnNumber + FontSize,
   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
+/*
+Prints the single boxes of * on the 2nd and 4th rows
+*/
+drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+/*The following two lines restrict the * printing to be in specific columns and rows*/
+  (
+    (ColumnNumber >= 0, ColumnNumber < FontSize);
+    (ColumnNumber >= FontSize*3, ColumnNumber < TextWidth)
+  ),
+  (
+    (CurrentLine >= FontSize, CurrentLine < FontSize*2);
+    (CurrentLine >= FontSize*3, CurrentLine < FontSize*4)
+  ),
+  drawSymbol('*', FontSize),
+  NextColumn is ColumnNumber + FontSize,
+  drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
-/* 
- * Covers the middle segment
- * Will have either stars or spaces 
- */
+/*
+*Prints the Spaces on the 2nd and 4th rows
+COME BACK HER LATER. THIS PIECE WON'T ALLOW THE CODE TO STOP PRINTING
+*/
 % drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
-%   (ColumnNumber >= FontSize, ColumnNumber < FontSize * 2),
-%   (
-%     (CurrentLine >= 0, CurrentLine < FontSize);
-%     (CurrentLine >= FontSize * 2 , CurrentLine < FontSize * 3)
-%   ),
-%   drawSymbol('*', FontSize),
-%   NextColumn is ColumnNumber + FontSize,
-%   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
+%  (
+%    (ColumnNumber >= FontSize, ColumnNumber < TextWidth);
+%    (ColumnNumber >= 0, ColumnNumber < FontSize*3)
+%  ),
+%  (
+%    (CurrentLine >= FontSize, CurrentLine < FontSize*2);
+%    (CurrentLine >= 0, CurrentLine < FontSize*3)
+%  ),
+%  drawSymbol(' ', FontSize),
+%  NextColumn is ColumnNumber + FontSize,
+%  drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
-
-% drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
-%   (ColumnNumber >= FontSize, ColumnNumber < FontSize * 2),
-%   (
-%     (CurrentLine >= FontSize, CurrentLine < 2 * FontSize);
-%     (CurrentLine >= FontSize * 3, CurrentLine < TextHeight)
-%   ),
-%   drawSymbol(' ', FontSize),
-%   NextColumn is ColumnNumber + FontSize,
-%   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 /* draw S */
 /*-------------------------------------------------------------------------------------------------*/
 /* WRITE RULES FOR drawU HERE*/
@@ -171,10 +187,12 @@ draw(LeftRightMargin, SpaceBetweenCharacters, FontSize, CurrentLine, TextWidth, 
   /** CALL YOUR RULES HERE **/
   % add spaces here between A and S
   drawSymbol(' ', SpaceBetweenCharacters),
+  ColumnNumber is 0,
   % call drawS
   drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber),
   % add spaces here between S and U
   drawSymbol(' ', SpaceBetweenCharacters),
+  ColumnNumber is 0,
   % call drawU
   drawU(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber),
   /*---------------------------------------------*/
