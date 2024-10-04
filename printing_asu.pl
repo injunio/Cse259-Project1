@@ -1,10 +1,9 @@
 drawSymbol(Symbol, 0).
-drawSymbol(Symbol, N) :- N > 0, write(Symbol), N1 is N - 1, drawSymbol(Symbol, N1).
-
+drawSymbol(Symbol, N) :- 
+  N > 0, write(Symbol), N1 is N - 1, drawSymbol(Symbol, N1).
 
 drawHorizontalLine(Symbol, 0) :- nl.
 drawHorizontalLine(Symbol, N) :- drawSymbol(Symbol, N).
-
 
 drawVerticalLinesWithSpace(Symbol, 0, Width).
 drawVerticalLinesWithSpace(Symbol, Height, Width) :- 
@@ -112,49 +111,55 @@ drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
 /* WRITE RULES FOR drawU HERE*/
 /*-------------------------------------------------------------------------------------------------*/
 /* draw U */
+
+/* the first rule just checks if ColumnNumber is greater than width of letter U */
 drawU(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   ColumnNumber >= TextWidth.
 
-/* 
- * Covers the left-most and the right-most columns that only have stars 
- */
+/* the second rule does the left-most and right-most columns*/ 
+/* for the U, this is the same as A, where it's just all star symbols for the segments */
+
 drawU(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   (
-    (ColumnNumber < FontSize, ColumnNumber < FontSize * 8);
-    (ColumnNumber < TextWidth, ColumnNumber < TextWidth * 2 )
+    (ColumnNumber >= 0, ColumnNumber < FontSize);
+    (ColumnNumber >= FontSize * 2, ColumnNumber < TextWidth )
   ),
   drawSymbol('*', FontSize),
   NextColumn is ColumnNumber + FontSize,
   drawU(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
-
 /* 
  * Covers the middle segment
  * Will have either stars or spaces 
  */
-% drawU(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
-%   (ColumnNumber >= FontSize, ColumnNumber < FontSize * 2),
-%   (
-%     (CurrentLine >= 0, CurrentLine < FontSize);
-%     (CurrentLine >= FontSize * 2 , CurrentLine < FontSize * 3)
-%   ),
-%   drawSymbol('*', FontSize),
-%   NextColumn is ColumnNumber + FontSize,
-%   drawU(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
+ /* the third rule tells where the spaces belong in the middle segment */
+ /* for U, this is until the last lines (font size) at the bottom */ 
+drawU(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+  (ColumnNumber >= FontSize, ColumnNumber < FontSize * 2),
+  (
+    (CurrentLine >= 0, CurrentLine < FontSize*4);
+    (CurrentLine >= FontSize * 2 , CurrentLine < FontSize * 3)
+  ),
+  drawSymbol(' ', FontSize),
+  NextColumn is ColumnNumber + FontSize,
+  drawU(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
+/* fourth rule tells the stared areas in the middle segment */
+/* for U, this is the bottom section */ 
+drawU(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+  (ColumnNumber >= FontSize, ColumnNumber < FontSize * 2),
+  (
+    (CurrentLine >= FontSize, CurrentLine < 2 * FontSize);
+    (CurrentLine >= FontSize * 3, CurrentLine < TextHeight)
+  ),
+  drawSymbol('*', FontSize),
+  NextColumn is ColumnNumber + FontSize,
+  drawU(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
-% drawU(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
-%   (ColumnNumber >= FontSize, ColumnNumber < FontSize * 2),
-%   (
-%     (CurrentLine >= FontSize, CurrentLine < 2 * FontSize);
-%     (CurrentLine >= FontSize * 3, CurrentLine < TextHeight)
-%   ),
-%   drawSymbol(' ', FontSize),
-%   NextColumn is ColumnNumber + FontSize,
-%   drawU(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
-/* draw U */
+  /* draw U */
 
-/* draw the text with appropriate spacing*/
+  /* draw the text with appropriate spacing*/
+
 draw(LeftRightMargin, SpaceBetweenCharacters, FontSize, CurrentLine, TextWidth, TextHeight) :-
   CurrentLine >= TextHeight.
 draw(LeftRightMargin, SpaceBetweenCharacters, FontSize, CurrentLine, TextWidth, TextHeight) :-
