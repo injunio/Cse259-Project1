@@ -89,38 +89,45 @@ drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
 /*
-Prints the single boxes of * on the 2nd and 4th rows
+Prints the single box of * on the 2nd row
 */
 drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
-/*The following two lines restrict the * printing to be in specific columns and rows*/
-  (
-    (ColumnNumber >= 0, ColumnNumber < FontSize);
-    (ColumnNumber >= FontSize*3, ColumnNumber < TextWidth)
-  ),
-  (
-    (CurrentLine >= FontSize, CurrentLine < FontSize*2);
-    (CurrentLine >= FontSize*3, CurrentLine < FontSize*4)
-  ),
+  (ColumnNumber >= 0, ColumnNumber < FontSize),
+  (CurrentLine >= FontSize, CurrentLine < FontSize*2),
   drawSymbol('*', FontSize),
   NextColumn is ColumnNumber + FontSize,
   drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
 /*
-*Prints the Spaces on the 2nd and 4th rows
+Prints the single box of * on the 4th row
+*/
+drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+  (ColumnNumber >= FontSize*3, ColumnNumber < TextWidth),
+  (CurrentLine >= FontSize*3, CurrentLine < FontSize*4),
+  drawSymbol('*', FontSize),
+  NextColumn is ColumnNumber + FontSize,
+  drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
+
+/*
+*Prints the Spaces on the 2nd row
 COME BACK HER LATER. THIS PIECE WON'T ALLOW THE CODE TO STOP PRINTING
 */
-% drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
-%  (
-%    (ColumnNumber >= FontSize, ColumnNumber < TextWidth);
-%    (ColumnNumber >= 0, ColumnNumber < FontSize*3)
-%  ),
-%  (
-%    (CurrentLine >= FontSize, CurrentLine < FontSize*2);
-%    (CurrentLine >= 0, CurrentLine < FontSize*3)
-%  ),
-%  drawSymbol(' ', FontSize),
-%  NextColumn is ColumnNumber + FontSize,
-%  drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
+drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+  (ColumnNumber >= FontSize, ColumnNumber < TextWidth),
+  (CurrentLine >= FontSize, CurrentLine < FontSize*2),
+  drawSymbol(' ', FontSize),
+  NextColumn is ColumnNumber + FontSize,
+  drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
+
+/*
+*Prints the Spaces on the 4th row
+*/
+drawS(TextWidth, TextHeight, FontSize, CurrentLine, ColumnNumber) :-
+  (ColumnNumber >= 0, ColumnNumber < FontSize*3),
+  (CurrentLine >= FontSize*3, CurrentLine < FontSize*4),
+  drawSymbol(' ', FontSize),
+  NextColumn is ColumnNumber + FontSize,
+  drawS(TextWidth, TextHeight, FontSize, CurrentLine, NextColumn).
 
 /* draw S */
 /*-------------------------------------------------------------------------------------------------*/
